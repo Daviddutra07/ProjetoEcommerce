@@ -2,6 +2,9 @@ from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime
 from typing import Optional, List
 
+class UsuarioPapel(SQLModel, table=True):
+    usuario_id: int = Field(foreign_key="usuario.id", primary_key=True)
+    papel_id: int = Field(foreign_key="papel.id", primary_key=True)
 
 class Usuario(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -12,7 +15,7 @@ class Usuario(SQLModel, table=True):
 
     papeis: List["Papel"] = Relationship(
         back_populates="usuarios",
-        link_model="UsuarioPapel"
+        link_model=UsuarioPapel
     )
 
     pedidos: List["Pedido"] = Relationship(back_populates="usuario")
@@ -26,12 +29,12 @@ class Papel(SQLModel, table=True):
 
     usuarios: List["Usuario"] = Relationship(
         back_populates="papeis",
-        link_model="UsuarioPapel"
+        link_model=UsuarioPapel
     )
 
-class UsuarioPapel(SQLModel, table=True):
-    usuario_id: int = Field(foreign_key="usuario.id", primary_key=True)
-    papel_id: int = Field(foreign_key="papel.id", primary_key=True)
+class ProdutoCategoria(SQLModel, table=True):
+    produto_id: int = Field(foreign_key="produto.id", primary_key=True)
+    categoria_id: int = Field(foreign_key="categoria.id", primary_key=True)
 
 class Produto(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -42,7 +45,7 @@ class Produto(SQLModel, table=True):
 
     categorias: List["Categoria"] = Relationship(
         back_populates="produtos",
-        link_model="ProdutoCategoria"
+        link_model=ProdutoCategoria
     )
 
     itens: List["ItemPedido"] = Relationship(back_populates="produto")
@@ -56,12 +59,9 @@ class Categoria(SQLModel, table=True):
 
     produtos: List["Produto"] = Relationship(
         back_populates="categorias",
-        link_model="ProdutoCategoria"
+        link_model=ProdutoCategoria
     )
 
-class ProdutoCategoria(SQLModel, table=True):
-    produto_id: int = Field(foreign_key="produto.id", primary_key=True)
-    categoria_id: int = Field(foreign_key="categoria.id", primary_key=True)
 
 
 class Pedido(SQLModel, table=True):
