@@ -6,7 +6,7 @@ from database.database import create_db
 from routes import (
     usuario_routes,
     papel_routes,
-    produto_routes,
+    produtos_routes,
     categoria_routes,
     pedido_routes,
     pagamento_routes,
@@ -29,7 +29,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(usuario_routes.router)
 app.include_router(papel_routes.router)
-app.include_router(produto_routes.router)
+app.include_router(produtos_routes.router)
 app.include_router(categoria_routes.router)
 app.include_router(produto_categoria_routes.router)
 app.include_router(pedido_routes.router)
